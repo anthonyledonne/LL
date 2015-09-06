@@ -28,7 +28,7 @@ shinyUI(
                            ),
                            column(4,
                                   dateRangeInput("dateRange", "Date Range:",
-                                                 start = min(unitsSoldData$Week.Ending))
+                                                 start = min(unitsSoldData$timestamp))
                            ),
                            column(4, 
                                   selectInput("timeDivision", "Time Division:",

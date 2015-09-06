@@ -27,8 +27,8 @@ shinyServer(
       unitsSoldDataset <- reactive({
         ## subset by date
         dataout <- subset(unitsSoldData, 
-                          Week.Ending >= input$dateRange[1] & Week.Ending <= input$dateRange[2],
-                          select = c("Week.Ending", input$unitsSoldGroupBoxInput, "Week", "Month", "Quarter", "Year"))
+                          timestamp >= input$dateRange[1] & timestamp <= input$dateRange[2],
+                          select = c("timestamp", input$unitsSoldGroupBoxInput, "Week", "Month", "Quarter", "Year"))
         
         
         ## summarize based on user input :: Weekly sales, Monthly, Quarterly, Yearly
@@ -129,8 +129,13 @@ shinyServer(
     ########################
     
     salesRankDataset <- reactive({
-      dataout <- subset(salesRankData, timestamp >= input$salesRankDateRange[1] & timestamp <= input$salesRankDateRange[2], 
+      print(class(input$salesRankDateRange[1]))
+      print(input$salesRankDateRange[1])
+      dataout <- subset(salesRankData, timestamp >= as.POSIXct(input$salesRankDateRange[1]) & timestamp <= as.POSIXct(input$salesRankDateRange[2]),
                         select = c("timestamp", input$salesRankGroupBoxInput))
+      
+      #dataout <- subset(salesRankData, timestamp >= input$salesRankDateRange[1] & timestamp <= input$salesRankDateRange[2], 
+      #                  select = c("timestamp", input$salesRankGroupBoxInput))
       melt(dataout, id = "timestamp")
     })
     
